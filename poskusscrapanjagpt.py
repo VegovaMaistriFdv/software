@@ -11,15 +11,18 @@ r = requests.get(url, allow_redirects=True)
 open('.\esa\dat.cvs', 'wb').write(r.content)
 
 file = open('.\esa\dat.cvs', 'r')
-line2 = []
+cas = []
 line = file.readline()
+
+sirina1 = []
+dolzina1 = []
 
 while True:
     line = file.readline()
     if not line:
         break
     line1 = line[96:115]
-    line2.append(line1)
+    cas.append(line1)
     i = 0
     x1 = 0
     x2 = 0
@@ -31,15 +34,23 @@ while True:
             if i == 7:
                 x2 = x
     sirina = line[x1:x2]
+    sirina1.append(sirina)
     dolzina = line[x2+1: ]
-
-
-    print(line1)
-    print(sirina)
-    print(dolzina)
+    dolzina1.append(dolzina)
 
 
 
 
-file = open('.\esa\dat_obdelano', 'a') # Open a file in append mode
+file = open('.\esa\dat_cas', 'w')
+file.write(str(cas))
 file.close()
+
+file = open('.\esa\dat_sirina', 'w')
+file.write(str(sirina1))
+file.close()
+
+
+file = open('.\esa\dat_dolzina', 'w')
+file.write(str(dolzina1))
+file.close()
+
