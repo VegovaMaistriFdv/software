@@ -9,13 +9,16 @@ from decouple import config
 end = config("END")
 start = config("START")
 
+end = int(end)
+start = int(start)
+
 
 today = datetime.date.today()
-today = pd.to_datetime(datetime.date.today(), format="%Y-%m-%d") - pd.DateOffset(days=int(end))
+today = pd.to_datetime(datetime.date.today(), format="%Y-%m-%d") - pd.DateOffset(days=end)
 today = str(today)
 today =today[0:10]
 
-today_30 = pd.to_datetime(datetime.date.today(), format="%Y-%m-%d") - pd.DateOffset(days=int(start))
+today_30 = pd.to_datetime(datetime.date.today(), format="%Y-%m-%d") - pd.DateOffset(days=start)
 today_30 =str(today_30)
 today_30 =today_30[0:10]
 
@@ -36,6 +39,8 @@ while True:
     if not line:
         break
     line1 = line[96:115]
+    line1 = line1.replace(" ","T")
+    line1 = line1 + "Z"
     time_temp.append(line1)
     i = 0
     x1 = 0
@@ -64,17 +69,28 @@ longitude_min = config("LONGITUDE_MIN")
 longitude_max = config("LONGITUDE_MAX")
 
 while l < len(latetude_temp):
-    if latetude_temp[l] <=  str(latitude_max) and latetude_temp[l] >= str(latitude_min) and longetude_temp[l] >= str(longitude_min) and longetude_temp[l] <= str(longitude_min):
+    if (latetude_temp[l] <=  str(latitude_max)) and (latetude_temp[l] >= str(latitude_min)) and (longetude_temp[l] <= str(longitude_max)) and (longetude_temp[l] >= str(longitude_min)):
         latitude.append(latetude_temp[l])
         longitude.append(longetude_temp[l])
         time_of.append(time_temp[l])
     l = l +1
 
+# FOR DEBUG
+file = open('.\esa\dat_cas', 'w')
+file.write(str(time_of))
+file.close()
+file = open('.\esa\dat_sirina', 'w')
+file.write(str(latitude))
+file.close()
+file = open('.\esa\dat_dolzina', 'w')
+file.write(str(longitude))
+file.close()
+
 url_1 = config("URL_API")
 
 fires = []
 for y in range(len(latitude)):
-    fires.append({"timestamp":time_of[y] ,"latitude": latitude[y]  ,"longitude":latitude[y]})
+    fires.append({"timestamp":time_of[y] ,"latitude": latitude[y]  ,"longitude":longitude[y]})
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 r = requests.post(url_1, data=json.dumps({"fire":fires}), headers=headers)
