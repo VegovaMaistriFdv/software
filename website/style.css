@@ -1,0 +1,51 @@
+html {
+    background-color: black
+}
+
+p {
+    color: aliceblue;
+    font-family: Arial;
+}
+
+header {
+    background-color: #163638;
+    width: 100%;
+    justify-content: left;
+    align-items: center;
+    overflow: hidden;
+    padding: 0;
+}
+
+header a {
+    display: block;
+    padding: 14px 16px; /* Padding around the links */
+    color: black; /* Text color */
+    font-family: Arial;
+    text-decoration: none;
+    position: relative;
+    flex-wrap: wrap;
+    display: flex;
+}
+
+div {
+    display: flex;
+    flex-direction: row;
+}
+
+header li {
+    float: left;
+}
+
+button {
+    padding-top: 30px;
+}
+
+a {
+    text-decoration: none;
+
+}
+
+lol {
+    padding: 30px 30px 30px 30px;
+    margin: 30px 30px 30px 30px;
+}
