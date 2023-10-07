@@ -76,15 +76,15 @@ while l < len(latetude_temp):
     l = l +1
 
 # FOR DEBUG
-file = open('.\esa\dat_cas', 'w')
-file.write(str(time_of))
-file.close()
-file = open('.\esa\dat_sirina', 'w')
-file.write(str(latitude))
-file.close()
-file = open('.\esa\dat_dolzina', 'w')
-file.write(str(longitude))
-file.close()
+#file = open('.\esa\dat_cas', 'w')
+#file.write(str(time_of))
+#file.close()
+#file = open('.\esa\dat_sirina', 'w')
+#file.write(str(latitude))
+#file.close()
+#file = open('.\esa\dat_dolzina', 'w')
+#file.write(str(longitude))
+#file.close()
 
 url_1 = config("URL_API")
 
