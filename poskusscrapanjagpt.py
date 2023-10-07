@@ -31,18 +31,18 @@ r = requests.get(url, allow_redirects=True)
 open('.\esa\dat.cvs', 'wb').write(r.content)
 
 file = open('.\esa\dat.cvs', 'r')
-cas = []
+time = []
 line = file.readline()
 
-sirina1 = []
-dolzina1 = []
+width = []
+length = []
 
 while True:
     line = file.readline()
     if not line:
         break
     line1 = line[96:115]
-    cas.append(line1)
+    time.append(line1)
     i = 0
     x1 = 0
     x2 = 0
@@ -53,22 +53,22 @@ while True:
                 x1 = x +1
             if i == 7:
                 x2 = x
-    sirina = line[x1:x2]
-    sirina1.append(sirina)
-    dolzina = line[x2+1:-1]
-    dolzina1.append(dolzina)
+    width1 = line[x1:x2]
+    width.append(width1)
+    length1 = line[x2+1:-1]
+    length.append(length1)
 
 
 
 file = open('.\esa\dat_cas', 'w')
-file.write(str(cas))
+file.write(str(time))
 file.close()
 
 file = open('.\esa\dat_sirina', 'w')
-file.write(str(sirina1))
+file.write(str(width))
 file.close()
 
 
 file = open('.\esa\dat_dolzina', 'w')
-file.write(str(dolzina1))
+file.write(str(length))
 file.close()
