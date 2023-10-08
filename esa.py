@@ -96,7 +96,7 @@ url_1 = config("URL_API")
 
 fires = []
 for y in range(len(latitude)):
-    fires.append({"timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
+    fires.append({"source":"esa","timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 r = requests.post(url_1, data=json.dumps({"fire":fires}), headers=headers)

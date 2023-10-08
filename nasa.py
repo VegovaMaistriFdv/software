@@ -48,7 +48,7 @@ while True:
     latitude_temp.append(latitude_temp_1)
     longitude_temp_1 = line[x1+1:x2]
     longitude_temp.append(longitude_temp_1)
-    time_temp_1 = line[x3+1: x3+11] + "T"
+    time_temp_1 = line[x3+1: x3+11] + "T00:00:00Z"
     time_temp.append(time_temp_1)
 
 
@@ -87,7 +87,7 @@ url_1 = config("URL_API")
 
 fires = []
 for y in range(len(latitude)):
-    fires.append({"timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
+    fires.append({"source":"nasa","timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 r = requests.post(url_1, data=json.dumps({"fire":fires}), headers=headers)
