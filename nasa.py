@@ -1,11 +1,10 @@
-import requests
-import datetime 
+import requests 
 import pandas as pd
 import requests
 import json
 from decouple import config
 
-
+#importing variables from .env, for downloadig data
 MAP_KEY = config("MAP_KEY")
 SOURCE = config("MAP_SOURCE")
 AREA_COORDINATES = config("MAP_AREA")
@@ -14,6 +13,7 @@ YES_NO = config("DOWNLOWD")
 
 YES_NO = int(YES_NO)
 
+#downloading data from web 
 if YES_NO == 1:  
     url= 'https://firms.modaps.eosdis.nasa.gov/api/area/csv/'+MAP_KEY+'/'+SOURCE+'/'+AREA_COORDINATES+'/'+DAY_RANGE
     r = requests.get(url, allow_redirects=True)
@@ -24,6 +24,7 @@ if YES_NO == 1:
 file = open('./nasa/nasa.cvs', 'r')
 line = file.readline()
 
+#parsing data and storing it in temp variables
 time_temp = []
 latitude_temp = []
 longitude_temp = []
@@ -51,7 +52,7 @@ while True:
     time_temp.append(time_temp_1)
 
 
-
+#filtering out what we do not need
 l = 0
 latitude = []
 longitude = []
@@ -82,12 +83,11 @@ while l < len(latitude_temp):
 #file.close()
 
 # uploading to server with jonson
-
 url_1 = config("URL_API")
 
 fires = []
 for y in range(len(latitude)):
-    fires.append({"timestamp":time_of[y] ,"latitude": latitude[y]  ,"longitude":longitude[y]})
+    fires.append({"timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 r = requests.post(url_1, data=json.dumps({"fire":fires}), headers=headers)

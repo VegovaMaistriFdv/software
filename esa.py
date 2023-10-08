@@ -5,7 +5,7 @@ import requests
 import json
 from decouple import config
 
-
+#importing variables from .env, for start and end date.
 end = config("END")
 start = config("START")
 
@@ -22,6 +22,7 @@ today_30 = pd.to_datetime(datetime.date.today(), format="%Y-%m-%d") - pd.DateOff
 today_30 =str(today_30)
 today_30 =today_30[0:10]
 
+#downloading data from webside
 url= 'https://s3wfa.esa.int/api/csv-export?bounds%5Bnwlat%5D=81.72318761821157&bounds%5Bnwlon%5D=-247.50000000000003&bounds%5Bselat%5D=-73.22669969306126&bounds%5Bselon%5D=427.50000000000006&zoom=2&date=' + today_30 + '&date_end=' + today + '&indexname=s3fires_solar_zenith&satellite=S3A'
 
 r = requests.get(url, allow_redirects=True)
@@ -34,6 +35,8 @@ time_temp = []
 latetude_temp = []
 longetude_temp = []
 
+
+#parsing data and storing it in temp variables
 while True:
     line = file.readline()
     if not line:
@@ -57,6 +60,8 @@ while True:
     longetude_temp_1 = line[x2+1:-1]
     longetude_temp.append(longetude_temp_1)
 
+
+#filtering out what we do not need
 l = 0
 latitude = []
 longitude = []
@@ -87,12 +92,11 @@ while l < len(latetude_temp):
 #file.close()
 
 # uploading to server with jonson
-
 url_1 = config("URL_API")
 
 fires = []
 for y in range(len(latitude)):
-    fires.append({"timestamp":time_of[y] ,"latitude": latitude[y]  ,"longitude":longitude[y]})
+    fires.append({"timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 r = requests.post(url_1, data=json.dumps({"fire":fires}), headers=headers)
