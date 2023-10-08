@@ -32,8 +32,8 @@ file = open('./esa/dat.cvs', 'r')
 line = file.readline()
 
 time_temp = []
-latetude_temp = []
-longetude_temp = []
+latitude_temp = []
+longitude_temp = []
 
 
 #parsing data and storing it in temp variables
@@ -56,9 +56,9 @@ while True:
             if i == 7:
                 x2 = x
     latetude_temp_1 = line[x1:x2]
-    latetude_temp.append(latetude_temp_1)
+    latitude_temp.append(latetude_temp_1)
     longetude_temp_1 = line[x2+1:-1]
-    longetude_temp.append(longetude_temp_1)
+    longitude_temp.append(longetude_temp_1)
 
 
 #filtering out what we do not need
@@ -68,15 +68,21 @@ longitude = []
 time_of = []
 
 latitude_min = config("LATITUDE_MIN")
+latitude_min = int(latitude_min)
 latitude_max = config("LATITUDE_MAX")
+latitude_max = int(latitude_max)
+
 
 longitude_min = config("LONGITUDE_MIN")
+longitude_min = int(longitude_min)
 longitude_max = config("LONGITUDE_MAX")
+longitude_max = int(longitude_max)
 
-while l < len(latetude_temp):
-    if (latetude_temp[l] <=  str(latitude_max)) and (latetude_temp[l] >= str(latitude_min)) and (longetude_temp[l] <= str(longitude_max)) and (longetude_temp[l] >= str(longitude_min)):
-        latitude.append(latetude_temp[l])
-        longitude.append(longetude_temp[l])
+
+while l < len(latitude_temp):
+    if (float(latitude_temp[l]) <=  latitude_max) and (float(latitude_temp[l]) >= latitude_min) and (float(longitude_temp[l]) <= longitude_max) and ( float(longitude_temp[l]) >= longitude_min):
+        latitude.append(latitude_temp[l])
+        longitude.append(longitude_temp[l])
         time_of.append(time_temp[l])
     l = l +1
 
@@ -97,6 +103,11 @@ url_1 = config("URL_API")
 fires = []
 for y in range(len(latitude)):
     fires.append({"source":"esa","timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
+
+#FOR DEBUG
+#file = open('./fire.txt','w')
+#file.write(str(fires))
+#file.close
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 r = requests.post(url_1, data=json.dumps({"fire":fires}), headers=headers)

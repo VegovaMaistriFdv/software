@@ -59,17 +59,24 @@ longitude = []
 time_of = []
 
 latitude_min = config("LATITUDE_MIN")
+latitude_min = int(latitude_min)
 latitude_max = config("LATITUDE_MAX")
+latitude_max = int(latitude_max)
+
 
 longitude_min = config("LONGITUDE_MIN")
+longitude_min = int(longitude_min)
 longitude_max = config("LONGITUDE_MAX")
+longitude_max = int(longitude_max)
+
 
 while l < len(latitude_temp):
-    if (latitude_temp[l] <=  str(latitude_max)) and (latitude_temp[l] >= str(latitude_min)) and (longitude_temp[l] <= str(longitude_max)) and (longitude_temp[l] >= str(longitude_min)):
+    if (float(latitude_temp[l]) <=  latitude_max) and (float(latitude_temp[l]) >= latitude_min) and (float(longitude_temp[l]) <= longitude_max) and ( float(longitude_temp[l]) >= longitude_min):
         latitude.append(latitude_temp[l])
         longitude.append(longitude_temp[l])
         time_of.append(time_temp[l])
     l = l +1
+
 
 #FOR DEBUG 
 #file = open('./nasa/nasa_sirina', 'w')
@@ -87,9 +94,12 @@ url_1 = config("URL_API")
 
 fires = []
 for y in range(len(latitude)):
-    fires.append({"source":"nasa","timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
+    fires.append({"source":"esa","timestamp":time_of[y] ,"lat": latitude[y]  ,"lng":longitude[y]})
+
+#FOR DEBUG
+#file = open('./fire.txt','w')
+#file.write(str(fires))
+#file.close
 
 headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
 r = requests.post(url_1, data=json.dumps({"fire":fires}), headers=headers)
-
-print(r)
