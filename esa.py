@@ -25,9 +25,9 @@ today_30 =today_30[0:10]
 url= 'https://s3wfa.esa.int/api/csv-export?bounds%5Bnwlat%5D=81.72318761821157&bounds%5Bnwlon%5D=-247.50000000000003&bounds%5Bselat%5D=-73.22669969306126&bounds%5Bselon%5D=427.50000000000006&zoom=2&date=' + today_30 + '&date_end=' + today + '&indexname=s3fires_solar_zenith&satellite=S3A'
 
 r = requests.get(url, allow_redirects=True)
-open('.\esa\dat.cvs', 'wb').write(r.content)
+open('./esa/dat.cvs', 'wb').write(r.content)
 
-file = open('.\esa\dat.cvs', 'r')
+file = open('./esa/dat.cvs', 'r')
 line = file.readline()
 
 time_temp = []
