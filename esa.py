@@ -86,6 +86,8 @@ while l < len(latetude_temp):
 #file.write(str(longitude))
 #file.close()
 
+# uploading to server with jonson
+
 url_1 = config("URL_API")
 
 fires = []
